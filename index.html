@@ -20,17 +20,6 @@
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/serviceWorker.js').then((reg) => {
-          console.log('Worker registration')
-        }).catch((err) => {
-          console.log('Worker registration failed', err)
-        })
-      })
-    }
-  </script>
 </body>
 
 </html>
