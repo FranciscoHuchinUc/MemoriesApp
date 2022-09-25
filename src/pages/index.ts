@@ -1,3 +1,3 @@
 export * from './AddMemorie'
-export * from './Memories/Home'
+export * from './Home'
 export * from './Memories'
