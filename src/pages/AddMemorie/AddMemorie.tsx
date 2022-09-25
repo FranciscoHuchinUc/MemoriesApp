@@ -1,12 +1,21 @@
-import React, { SyntheticEvent } from 'react'
+import React, { useState } from 'react'
 import { Formik, Form } from 'formik'
 import Layout from '../_layout'
 import { createMemorie } from '@/lib/firestore/db'
-import UploadIcon from '@/assets/icons/Upload.svg'
+import { ImagePreview, NoneImage } from '@/components/CoverUpload'
 
 export interface AddMemorieInterface { }
 
 const AddMemorie: React.FC<AddMemorieInterface> = () => {
+	const [selectedImage, setSelectedImage] = useState(null)
+
+	const handleImageChange = (e: any) => {
+		if (e.target.files[0])
+		{
+			setSelectedImage(e.target.files[0])
+		}
+	}
+
 	return (
 		<Layout>
 			<Formik
@@ -28,21 +37,29 @@ const AddMemorie: React.FC<AddMemorieInterface> = () => {
 			>
 				{({ handleChange }) => (
 					<Form>
-						<div className='flex flex-col gap-10'>
-							<div className="flex justify-center items-center w-full">
-								<label htmlFor="dropzone-file" className="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer">
-									<div className="flex flex-col justify-center items-center pt-5 pb-6">
-										<img className='mb-3 w-10 h-10 opacity-40' src={UploadIcon} alt="" />
-										<p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-										<p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG</p>
-									</div>
-									<input id="dropzone-file" type="file" className="hidden" />
-								</label>
+						<div className='flex flex-col gap-5'>
+
+							<div className="flex items-center justify-center w-full h-64 border rounded-md">
+								{
+									selectedImage ? (
+										<ImagePreview image={selectedImage} />
+									) : (
+										<NoneImage />
+									)
+								}
 							</div>
 
+							<input
+								className='text-transparent file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold
+								file:bg-violet-50 file:text-primary hover:file:bg-violet-100'
+								type="file" name="image" onChange={handleImageChange} accept='image/*' />
+
 							<input className='border-2 rounded-md' type="text" name="title" onChange={handleChange} />
-							<input className='border-2 rounded-md' type="text" name="description" onChange={handleChange} />
+
+							<textarea className='border-2 rounded-md' rows={3} name="description" onChange={handleChange} />
+
 							<input className='border-2 rounded-md' type="date" name="createAt" onChange={handleChange} />
+
 							<button className='bg-primary p-2 rounded-md text-white' type='submit'>Create</button>
 						</div>
 					</Form>
