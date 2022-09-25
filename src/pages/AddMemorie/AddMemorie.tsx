@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { Formik, Form } from 'formik'
 import Layout from '../_layout'
-import { createMemorie } from '@/lib/firestore/db'
+import { createMemorie, uploadImage } from '@/lib/firestore/db'
 import { ImagePreview, NoneImage } from '@/components/CoverUpload'
 
 export interface AddMemorieInterface { }
 
 const AddMemorie: React.FC<AddMemorieInterface> = () => {
-	const [selectedImage, setSelectedImage] = useState(null)
+	const [selectedImage, setSelectedImage] = useState<File | null>(null)
+	const [file, setFile] = useState(null)
 
 	const handleImageChange = (e: any) => {
 		if (e.target.files[0])
@@ -26,7 +27,11 @@ const AddMemorie: React.FC<AddMemorieInterface> = () => {
 				}}
 				onSubmit={async (values) => {
 					console.log(values)
-					await createMemorie(values)
+					const urlImage = await uploadImage(file)
+					await createMemorie({
+						...values,
+						image: urlImage,
+					})
 						.then((res) => {
 							console.log('Memorie created', res)
 						})
@@ -52,7 +57,10 @@ const AddMemorie: React.FC<AddMemorieInterface> = () => {
 							<input
 								className='text-transparent file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold
 								file:bg-violet-50 file:text-primary hover:file:bg-violet-100'
-								type="file" name="image" onChange={handleImageChange} accept='image/*' />
+								type="file" name="image" onChange={(e: any) => {
+									setSelectedImage(e.target.files![0])
+									setFile(e.target.files![0])
+								}} accept='image/*' />
 
 							<input className='border-2 rounded-md' type="text" name="title" onChange={handleChange} />
 
