@@ -8,7 +8,7 @@ export interface NavbarInterface { }
 
 const Navbar: React.FC<NavbarInterface> = () => {
 	return (
-		<nav className='w-full h-[60px] px-[10px]  absolute bottom-0 left-0'>
+		<nav className='w-full h-[60px] px-[10px]  fixed bottom-0 left-0'>
 			<ul className='flex flex-row justify-between items-center px-[30px] py-1 rounded-md bg-secondary/70 backdrop-blur-sm'>
 				<Item to='/' icon={Heart} text='Home' />
 				<Item to='/add' icon={Plus} />
