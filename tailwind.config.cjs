@@ -10,11 +10,10 @@ module.exports = {
         'sans': ['Poppins']
       },
       colors: {
-        'primary': '#4A19A8',
-        'secondary': '#F3EEFC',
+        'primary': '#F00073',
+        'background': '#FEFAFA',
         'black': '#444444',
-        'hover': '#666666',
-        'shadow': '#F2F2F2',
+        'stroke': '#DBDBDB',
       }
     }
   },
