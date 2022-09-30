@@ -15,8 +15,8 @@ const Navbar: React.FC<NavbarInterface> = () => {
 	const [active, setActive] = useState<Number>(0)
 
 	return (
-		<nav className='w-full h-[60px] px-[10px]  fixed bottom-0 left-0'>
-			<ul className='flex flex-row justify-evenly items-center py-1 rounded-lg bg-white border border-stroke'>
+		<nav className='w-full h-[60px] px-[10px] fixed bottom-0 left-0'>
+			<ul className='max-w-[530px] m-auto flex flex-row justify-evenly items-center py-1 rounded-lg bg-white border border-stroke'>
 				{
 					items.map((item, i) => (
 						<li key={i}>
