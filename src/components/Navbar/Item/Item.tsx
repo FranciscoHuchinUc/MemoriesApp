@@ -2,19 +2,23 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 export interface ItemInterface {
-	to: string
-	icon: string
-	text?: string
+	name?: string
+	icon: JSX.Element
+	item: Number
+	active: Number
 }
 
-const Item: React.FC<ItemInterface> = ({to, icon, text}) => {
+const Item: React.FC<ItemInterface> = ({ icon, name, item, active }) => {
+
 	return (
-		<Link to={to} className='group'>
-			<li className='flex flex-col justify-center items-center px-[6px] group-hover:text-primary'>
-					<img className='' src={icon} alt="" />
-				{ text && <span className='text-xs text-black font-medium group-hover:text-primary'>{text}</span>}
-			</li>
-		</Link>
+		<div className={`flex flex-col justify-center items-center rounded-md h-10 w-20 `}>
+			<div className={`h-8 w-8  ${active === item ? 'text-primary' : 'text-black'}`}>
+				{icon}
+			</div>
+			<span className={`text-xs -mt-1 ${active === item ? 'text-primary' : 'text-black'} font-medium`}>
+				{name}
+			</span>
+		</div>
 	)
 }
 
