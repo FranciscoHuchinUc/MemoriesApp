@@ -9,18 +9,16 @@ export interface CardInterface {
 const Card: React.FC<CardInterface> = ({ memory }) => {
 	return (
 		<Fragment>
-			<section className='bg-white border rounded-md w-[340px] h-[240px] overflow-hidden shadow-sm'>
-				<header className='flex items-center w-full h-[180px] overflow-hidden'>
-					<img className='object-cover' src={memory.image} alt="" />
+			<article className='bg-white border border-stroke rounded-md w-full h-[410px] overflow-hidden sm:w-[470px]'>
+				<header className='flex items-center w-full h-[300px] overflow-hidden'>
+					<img className='object-cover w-full h-full' src={memory.image} alt="" />
 				</header>
-				<footer className='flex flex-row justify-between px-2 py-1'>
-					<div className='flex flex-col justify-center items-start'>
-						<h3 className='text-sm font-semibold text-primary overflow-hidden w-[240px] whitespace-nowrap text-ellipsis'>{memory.title}</h3>
-						<p className='text-xs font-normal overflow-hidden w-[240px] whitespace-nowrap text-ellipsis'>{memory.description}</p>
-					</div>
-					<span className='h-5 text-[8px] text-center font-semibold px-2 py-1 rounded-md bg-purple-100 text-primary'>{memory.createAt}</span>
+				<footer className='flex flex-col justify-center items-start p-2 overflow-hidden h-[110px]'>
+					<h3 className='text-sm font-semibold overflow-hidden whitespace-nowrap text-ellipsis'>{memory.title}</h3>
+					<p className='text-xs font-normal overflow-hidden whitespace-nowrap text-ellipsis'>{memory.description}</p>
+					<span className='text-[10px] text-[#8E8E8E] text-center font-light mt-4'>{memory.createAt}</span>
 				</footer>
-			</section>
+			</article>
 		</Fragment>
 	)
 }

@@ -20,7 +20,7 @@ const Memories: React.FC<MemoriesInterface> = () => {
 
 	return (
 		<Layout>
-			<div className='flex justify-center items-center flex-col gap-4'>
+			<section className='flex justify-center items-center flex-col gap-4'>
 				{
 					!lazy ? (
 						memories.map((memory: Memorie) => (
@@ -28,7 +28,7 @@ const Memories: React.FC<MemoriesInterface> = () => {
 						))
 					) : (<Lazy />)
 				}
-			</div>
+			</section>
 		</Layout>
 	)
 }
