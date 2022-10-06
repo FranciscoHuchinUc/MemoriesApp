@@ -3,7 +3,7 @@ import Layout from '../_layout'
 import { lastMemorie } from '@/lib/firestore/db'
 import { DocumentData } from 'firebase/firestore'
 
-export interface HomeInterface { }
+export interface HomeInterface {}
 
 const Home: React.FC<HomeInterface> = () => {
 	const [lasMemory, setLasMemory] = useState<DocumentData>({})
@@ -17,10 +17,14 @@ const Home: React.FC<HomeInterface> = () => {
 	return (
 		<Layout>
 			<section>
-				<article className='flex flex-col gap-14'>
+				<article className='flex justify-center items-center flex-col gap-14'>
 					<h1 className='pt-10 text-center text-lg font-medium'>Recent Memorie</h1>
-					<div className='w-full h-96 rounded-md border-2 border-shadow overflow-hidden'>
-						<img className='w-full h-full object-cover' src={lasMemory.image} alt={lasMemory.title} />
+					<div className='w-full h-[600px] rounded-md border-2 border-shadow overflow-hidden sm:w-[470px]'>
+						<img
+							className='w-full h-full object-cover'
+							src={lasMemory.image}
+							alt={lasMemory.title}
+						/>
 					</div>
 				</article>
 			</section>
@@ -29,4 +33,3 @@ const Home: React.FC<HomeInterface> = () => {
 }
 
 export default Home
-
