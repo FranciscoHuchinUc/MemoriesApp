@@ -4,15 +4,14 @@ import Layout from '../_layout'
 import { createMemorie, uploadImage } from '@/lib/firestore/db'
 import { ImagePreview, NoneImage } from '@/components/CoverUpload'
 
-export interface AddMemorieInterface { }
+export interface AddMemorieInterface {}
 
 const AddMemorie: React.FC<AddMemorieInterface> = () => {
 	const [selectedImage, setSelectedImage] = useState<File | null>(null)
 	const [file, setFile] = useState(null)
 
 	const handleImageChange = (e: any) => {
-		if (e.target.files[0])
-		{
+		if (e.target.files[0]) {
 			setSelectedImage(e.target.files[0])
 		}
 	}
@@ -42,33 +41,51 @@ const AddMemorie: React.FC<AddMemorieInterface> = () => {
 			>
 				{({ handleChange }) => (
 					<Form>
-						<div className='flex flex-col gap-5'>
-
-							<div className="flex items-center justify-center w-full h-64 border rounded-md">
-								{
-									selectedImage ? (
-										<ImagePreview image={selectedImage} />
-									) : (
-										<NoneImage />
-									)
-								}
+						<div className='flex flex-col gap-5 m-auto sm:w-[470px]'>
+							<div className='flex items-center justify-center w-full h-64 border rounded-md'>
+								{selectedImage ? (
+									<ImagePreview image={selectedImage} />
+								) : (
+									<NoneImage />
+								)}
 							</div>
 
 							<input
 								className='text-transparent file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold
 								file:bg-violet-50 file:text-primary hover:file:bg-violet-100'
-								type="file" name="image" onChange={(e: any) => {
+								type='file'
+								name='image'
+								onChange={(e: any) => {
 									setSelectedImage(e.target.files![0])
 									setFile(e.target.files![0])
-								}} accept='image/*' />
+								}}
+								accept='image/*'
+							/>
 
-							<input className='border-2 rounded-md' type="text" name="title" onChange={handleChange} />
+							<input
+								className='border-2 rounded-md'
+								type='text'
+								name='title'
+								onChange={handleChange}
+							/>
 
-							<textarea className='border-2 rounded-md' rows={3} name="description" onChange={handleChange} />
+							<textarea
+								className='border-2 rounded-md'
+								rows={3}
+								name='description'
+								onChange={handleChange}
+							/>
 
-							<input className='border-2 rounded-md' type="date" name="createAt" onChange={handleChange} />
+							<input
+								className='border-2 rounded-md'
+								type='date'
+								name='createAt'
+								onChange={handleChange}
+							/>
 
-							<button className='bg-primary p-2 rounded-md text-white' type='submit'>Create</button>
+							<button className='bg-primary p-2 rounded-md text-white' type='submit'>
+								Create
+							</button>
 						</div>
 					</Form>
 				)}
@@ -78,4 +95,3 @@ const AddMemorie: React.FC<AddMemorieInterface> = () => {
 }
 
 export default AddMemorie
-
