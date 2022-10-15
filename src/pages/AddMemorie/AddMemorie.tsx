@@ -1,20 +1,25 @@
 import React, { useState } from 'react'
 import { Formik, Form } from 'formik'
+import { object, string, date } from 'yup'
 import Layout from '../_layout'
 import { createMemorie, uploadImage } from '@/lib/firestore/db'
 import { ImagePreview, NoneImage } from '@/components/CoverUpload'
+import { Toast } from '@/components/Toast'
 
 export interface AddMemorieInterface {}
 
 const AddMemorie: React.FC<AddMemorieInterface> = () => {
 	const [selectedImage, setSelectedImage] = useState<File | null>(null)
 	const [file, setFile] = useState(null)
+	const [activeToast, setActiveToast] = useState<boolean>(false)
+	const [toastType, setToastType] = useState<'success' | 'error'>('success')
+	const [toastTitle, setToastTitle] = useState<string>('')
 
-	const handleImageChange = (e: any) => {
-		if (e.target.files[0]) {
-			setSelectedImage(e.target.files[0])
-		}
-	}
+	const uploadScheme = object().shape({
+		title: string().required('Title is required'),
+		description: string().required('Description is required'),
+		createAt: date().required('Date is required'),
+	})
 
 	return (
 		<Layout>
@@ -24,6 +29,7 @@ const AddMemorie: React.FC<AddMemorieInterface> = () => {
 					description: '',
 					createAt: '',
 				}}
+				validationSchema={uploadScheme}
 				onSubmit={async (values) => {
 					console.log(values)
 					const urlImage = await uploadImage(file)
@@ -32,22 +38,28 @@ const AddMemorie: React.FC<AddMemorieInterface> = () => {
 						image: urlImage,
 					})
 						.then((res) => {
-							console.log('Memorie created', res)
+							setActiveToast(true)
+							setToastType('success')
+							setToastTitle('Memorie created')
+							setTimeout(() => {
+								setActiveToast(false)
+							}, 1500)
 						})
 						.catch((err) => {
-							console.log('Error creating Memorie', err)
+							setActiveToast(true)
+							setToastType('error')
+							setToastTitle('Memorie not created')
+							setTimeout(() => {
+								setActiveToast(false)
+							}, 1500)
 						})
 				}}
 			>
-				{({ handleChange }) => (
+				{({ handleChange, errors, touched }) => (
 					<Form>
 						<div className='flex flex-col gap-5 m-auto sm:w-[470px]'>
 							<div className='flex items-center justify-center w-full h-64 border rounded-md'>
-								{selectedImage ? (
-									<ImagePreview image={selectedImage} />
-								) : (
-									<NoneImage />
-								)}
+								{selectedImage ? <ImagePreview image={selectedImage} /> : <NoneImage />}
 							</div>
 
 							<input
@@ -62,26 +74,14 @@ const AddMemorie: React.FC<AddMemorieInterface> = () => {
 								accept='image/*'
 							/>
 
-							<input
-								className='border-2 rounded-md'
-								type='text'
-								name='title'
-								onChange={handleChange}
-							/>
+							<input className='border-2 rounded-md px-2' type='text' name='title' placeholder='Title' onChange={handleChange} />
+							{errors.title && touched.title ? <div className='text-red-500 text-base -mt-4'>{errors.title}</div> : null}
 
-							<textarea
-								className='border-2 rounded-md'
-								rows={3}
-								name='description'
-								onChange={handleChange}
-							/>
+							<textarea className='border-2 rounded-md px-2' rows={3} name='description' placeholder='Description' onChange={handleChange} />
+							{errors.description && touched.description ? <div className='text-red-500 text-base -mt-4'>{errors.description}</div> : null}
 
-							<input
-								className='border-2 rounded-md'
-								type='date'
-								name='createAt'
-								onChange={handleChange}
-							/>
+							<input className='border-2 rounded-md' type='date' name='createAt' onChange={handleChange} />
+							{errors.createAt && touched.createAt ? <div className='text-red-500 text-base -mt-4'>{errors.createAt}</div> : null}
 
 							<button className='bg-primary p-2 rounded-md text-white' type='submit'>
 								Create
@@ -90,6 +90,7 @@ const AddMemorie: React.FC<AddMemorieInterface> = () => {
 					</Form>
 				)}
 			</Formik>
+			<Toast type={toastType} title={toastTitle} isActivated={activeToast} />
 		</Layout>
 	)
 }

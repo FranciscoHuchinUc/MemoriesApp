@@ -6,8 +6,7 @@ import { v4 } from 'uuid'
 
 const memoriesRef = collection(db, 'memories')
 
-export const createMemorie = async (memorie: Memorie) =>
-	await addDoc(memoriesRef, memorie)
+export const createMemorie = async (memorie: Memorie) => await addDoc(memoriesRef, memorie)
 
 export const getMemories = async () => {
 	let memorySnapshot = await getDocs(memoriesRef)
@@ -35,7 +34,11 @@ export const lastMemorie = async () => {
 
 export const uploadImage = async (file: any) => {
 	const storageRef = ref(storage, `post/${v4()}`)
-	await uploadBytes(storageRef, file)
-	const url = await getDownloadURL(storageRef)
-	return url
+	if (file) {
+		await uploadBytes(storageRef, file)
+		const url = await getDownloadURL(storageRef)
+		return url
+	} else {
+		return 'https://firebasestorage.googleapis.com/v0/b/memoriesapp-f4aa3.appspot.com/o/post%2Fdefault-image.png?alt=media&token=b204caec-2224-4ac1-aa8a-dc45d71d224d'
+	}
 }
